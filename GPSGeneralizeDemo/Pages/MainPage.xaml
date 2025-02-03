@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
+           	 xmlns:esriUI="clr-namespace:Esri.ArcGISRuntime.Maui;assembly=Esri.ArcGISRuntime.Maui"
+             xmlns:local="clr-namespace:GPSGeneralizeDemo.ViewModels"
+             x:Class="GPSGeneralizeDemo.Pages.MainPage"
+             Title="Map">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="150" />
+        </Grid.RowDefinitions>
+
+        <esriUI:MapView x:Name="MainMapView" Grid.Row="0" />
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="End" VerticalOptions="Start">
+            <ImageButton x:Name="DrawPolyline_Button" Source="polyline_draw.svg" WidthRequest="30" HeightRequest="30" BackgroundColor="White" Margin="5" IsEnabled="True" Padding="5" Clicked="DrawPolyline_Button_Clicked" />
+            <ImageButton x:Name="UndoPolylineSegment_Button" Source="undo.svg" WidthRequest="30" HeightRequest="30" BackgroundColor="White" Margin="5" IsEnabled="False" Padding="5" Clicked="UndoPolylineSegment_Button_Clicked" />
+            <ImageButton x:Name="ClearPolyline_Button" Source="trash.svg" WidthRequest="30" HeightRequest="30" BackgroundColor="White" Margin="5" IsEnabled="False" Padding="5" Clicked="ClearPolyline_Button_Clicked" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="20">
+            <Picker x:Name="GeneralizeMethodPicker" 
+                    SelectedIndexChanged="GeneralizeMethodPicker_SelectedIndexChanged" 
+                    ItemsSource="{Binding LineGeneralizeMethodNamesArr}"
+                    Title="Select a line simplification method" 
+                    HorizontalOptions="Center"
+                    HeightRequest="50" />
+            <Grid Margin="10,0" ColumnDefinitions="50,*">
+                <Label x:Name="EpsilonValue" VerticalTextAlignment="Center"  Grid.Column="0"
+                Text="{Binding Source={x:Reference EpsilonSlider},
+                              Path=Value,
+                              StringFormat='Epsilon: {0:F0}'}" />
+                <Slider
+                     x:Name="EpsilonSlider"
+                     Grid.Column="1"
+                     Minimum="0" 
+                     Maximum="{Binding MaxSliderVal}" 
+                     IsVisible="True"
+                     BackgroundColor="Transparent"
+                     ValueChanged="EpsilonSlider_ValueChanged"/>
+                
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
